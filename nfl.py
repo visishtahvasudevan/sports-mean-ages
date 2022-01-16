@@ -4,6 +4,10 @@ import pandas as pd
 from itertools import islice
 import statistics
 
+# These two websites were very helpful for the scraping process
+# https://towardsdatascience.com/scraping-nfl-stats-to-compare-quarterback-efficiencies-4989642e02fe
+# https://medium.com/@osanchez2323/web-scraping-nba-stats-4b4f8c525994
+
 year = ''
 stat_type = ''
 category = ''
@@ -164,6 +168,9 @@ if stat_type == 'rushing':
 elif stat_type == 'receiving':
     categories = ['Age', 'Rec', 'Yds', 'TD']
 else:
+    new_columns = data.columns.values
+    new_columns[-6] = 'Yds_Sack'
+    data.columns = new_columns
     categories = ['Age', 'Yds', 'TD', 'Int']
 
 data_compressed = data[['Player', 'Tm'] + categories]
@@ -191,48 +198,48 @@ else:
     else:
         df = data_compressed.sort_values(by=['TD'], ascending=False)
 s = df['Age']
-s20 = islice(s, 20)
-s20 = [int(x) for x in s20]
-avg_age = statistics.mean(s20)
-median = statistics.median(s20)
-st_dev = statistics.stdev(s20, None)
+s10 = islice(s, 10)
+s10 = [int(x) for x in s10]
+avg_age = statistics.mean(s10)
+median = statistics.median(s10)
+st_dev = statistics.stdev(s10, None)
 
 if stat_type == 'rushing':
     if category == 'Att':
-        print("The average age of the top twenty rushing attempts leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten rushing attempts leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     elif category == 'Yds':
-        print("The average age of the top twenty rushing yards leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten rushing yards leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     else:
-        print("The average age of the top twenty rushing touchdown leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten rushing touchdown leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
 elif stat_type == 'passing':
     if category == 'Yds':
-        print("The average age of the top twenty passing yards leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten passing yards leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     elif category == 'TD':
-        print("The average age of the top twenty passing touchdown leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten passing touchdown leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     else:
-        print("The average age of the top twenty interception leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten interception leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
 else:
     if category == 'Rec':
-        print("The average age of the top twenty reception leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten reception leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     elif category == 'Yds':
-        print("The average age of the top twenty receiving yards leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten receiving yards leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
     else:
-        print("The average age of the top twenty receiving touchdown leaders in " + str(year) + " was " + str(avg_age))
+        print("The average age of the top ten receiving touchdown leaders in " + str(year) + " was " + str(avg_age))
         print("The standard deviation is " + str(st_dev))
         print("The median is " + str(median))
